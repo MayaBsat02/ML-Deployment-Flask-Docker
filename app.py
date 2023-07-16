@@ -3,6 +3,7 @@ from tensorflow.keras.models import model_from_json
 import numpy as np
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import pickle
+import os
 
 
 # Load the model architecture
@@ -24,6 +25,7 @@ with open('model/french_tokenizer.pkl', 'rb') as f:
     french_tokenizer = pickle.load(f)
 
 app = Flask(__name__)
+app.testing = True
 
 @app.route("/")
 def home():
@@ -50,4 +52,5 @@ def translate():
 
 
 if __name__ == '__main__':
-    app.run()
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
